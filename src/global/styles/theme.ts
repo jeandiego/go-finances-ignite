@@ -15,6 +15,8 @@ export default {
     title: '#363F5F',
     text: '#969CB2',
     background: '#F0F2F5',
+
+    opacity: 'rgba(150, 156, 178, 0.22)',
   },
   fonts: {
     regular: 'Poppins_400Regular',

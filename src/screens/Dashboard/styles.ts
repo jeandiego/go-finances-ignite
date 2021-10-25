@@ -5,7 +5,6 @@ import { Feather } from "@expo/vector-icons"
 import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper'
 import { DataListProps } from "."
 
-
 export const Container = styled.View`
  flex: 1;
  background-color: ${({theme}) => theme.colors.background};
