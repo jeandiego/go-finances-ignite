@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 export const Container = styled.View`
   flex: 1;
   background-color: ${({theme}) => theme.colors.background};
+
 `;
 
 export const Header = styled.View`
@@ -22,20 +23,9 @@ export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
 `;
 
-
-export const FormView = styled.View`
-  flex: 1;
-  justify-content: space-between;
-  padding: 24px;
-
-`;
-
-export const Fields = styled.View`
-`;
-
-export const TransactionView = styled.View`
-margin: 16px 0px;
-margin-top: 8px;
-flex-direction: row;
-justify-content: space-between;
-`;
+export const Content = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    flex: 1,
+    padding: 24,
+  }
+})``;

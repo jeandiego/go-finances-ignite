@@ -12,7 +12,7 @@ import {
   LastTransaction,
 } from './styles';
 
-interface Props {
+export interface IHightlightProps {
   title: string;
   amount: string;
   lastTransaction: string;
@@ -26,7 +26,7 @@ const icon = {
 }
 
 
-export function HighlightCard({type, title, amount, lastTransaction}:Props) {
+export function HighlightCard({type, title, amount, lastTransaction}: IHightlightProps) {
   return (
   <Container type={type}>
     <Header>
