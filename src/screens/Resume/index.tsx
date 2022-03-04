@@ -39,13 +39,13 @@ export function Resume(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const theme = useTheme();
 
-  function handleChangeDate(action: "prev" | "next") {
-    if (action === "next") {
-      setSelectedDate(addMonths(selectedDate, 1));
-    } else {
-      setSelectedDate(subMonths(selectedDate, 1));
-    }
-  }
+  const handleChangeDate = useCallback((action: "prev" | "next") => {
+      if (action === "next") {
+        setSelectedDate(addMonths(selectedDate, 1));
+      } else {
+        setSelectedDate(subMonths(selectedDate, 1));
+      }
+  }, [selectedDate])
 
   const loadData = useCallback(async() => {
     setIsLoading(true);
