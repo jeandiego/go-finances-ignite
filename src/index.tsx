@@ -9,10 +9,10 @@ import {
   Poppins_700Bold
 } from '@expo-google-fonts/poppins'
 import AppLoading from 'expo-app-loading';
-import { AppRoutes } from './routes/app.routes';
 import { NavigationContainer } from '@react-navigation/native';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'
+import { Routes } from './routes';
 
 export default function App() {
 
@@ -29,9 +29,7 @@ export default function App() {
   return (
       <ThemeProvider theme={theme}>
         <StatusBar style="light" />
-          <NavigationContainer>
-           <AppRoutes />
-          </NavigationContainer>
+            <Routes />
       </ThemeProvider>
   );
 }

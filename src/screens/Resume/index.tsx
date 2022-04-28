@@ -132,7 +132,7 @@ export function Resume(): JSX.Element {
                 },
               }}
               data={totalByCategories}
-              labelRadius={50}
+              labelRadius={60}
               x="percentFormatted"
               y="total"
             />
