@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 import * as Google from 'expo-auth-session';
-// import * as AppleAuthentication from 'expo-apple-authentication';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userStorageKey } from '../constants/storage';
 
@@ -77,32 +77,33 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signInWithApple() {
-    // try {
-    //   const credential = await AppleAuthentication.signInAsync({
-    //     requestedScopes: [
-    //       AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-    //       AppleAuthentication.AppleAuthenticationScope.EMAIL,
-    //     ],
-    //   });
+    try {
+      const credential = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+      console.log({credential})
 
-    //   if (credential) {
-    //     const name = credential.fullName!.givenName!;
-    //     const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
+      // if (credential) {
+      //   const name = credential.fullName!.givenName!;
+      //   const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
 
-    //     const userLogged = {
-    //       id: String(credential.user),
-    //       email: credential.email!,
-    //       name,
-    //       photo,
-    //     };
+      //   const userLogged = {
+      //     id: String(credential.user),
+      //     email: credential.email!,
+      //     name,
+      //     photo,
+      //   };
 
-    //     setUser(userLogged);
+      //   setUser(userLogged);
 
-    //     await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
-    //   }
-    // } catch (error) {
-    //   throw new Error(error as string);
-    // }
+      //   await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+      // }
+    } catch (error) {
+      throw new Error(error as string);
+    }
   }
 
   async function signOut() {
