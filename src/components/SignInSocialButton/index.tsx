@@ -14,12 +14,11 @@ export function SignInSocialButton({
   icon: Icon,
   ...rest
 }: SignInSocialButtonProps) {
-  console.log(Icon)
 
   return (
     <Button {...rest}>
       <ImageContainer>
-        {Icon}
+        <Icon />
       </ImageContainer>
       <Text>{title}</Text>
     </Button>

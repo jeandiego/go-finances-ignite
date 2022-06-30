@@ -13,8 +13,11 @@ import {
   TitleWrapper,
 } from "./styles";
 import { AntDesign } from '@expo/vector-icons';
+import LogoSvg from '../../assets/logo.svg';
+import { useAuth } from "../../hooks/useAuth";
 
 export function SignIn(): JSX.Element {
+  const { signInWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const theme = useTheme();
 
@@ -23,9 +26,10 @@ export function SignIn(): JSX.Element {
   async function handleSignInWithGoogle() {
     try {
       setIsLoading(true);
-      // return await signInWithGoogle();
+      await signInWithGoogle();
+
     } catch (error) {
-      console.log(error);
+      console.warn(error);
       Alert.alert("Não foi possível conectar a conta Google.");
       setIsLoading(false);
     }
@@ -45,7 +49,7 @@ export function SignIn(): JSX.Element {
     <Container>
       <Header>
         <TitleWrapper>
-          {/* <LogoSvg width={RFValue(120)} height={RFValue(68)} /> */}
+          <LogoSvg width={RFValue(120)} height={RFValue(68)} />
           <Title>
             Controle suas {"\n"} financas de forma{"\n"} muito simples
           </Title>
@@ -59,13 +63,13 @@ export function SignIn(): JSX.Element {
           <SignInSocialButton
             onPress={handleSignInWithGoogle}
             title="Entrar com Google"
-            icon={<AntDesign name="google" size={24} color="black" />}
+            icon={() => <AntDesign name="google" size={24} color="black" />}
           />
           {Platform.OS === "ios" && (
             <SignInSocialButton
               onPress={handleSignInWithApple}
               title="Entrar com Apple"
-              icon={<AntDesign name="apple1" size={24} color="black" />}
+              icon={() => <AntDesign name="apple1" size={24} color="black" />}
             />
           )}
         </FooterWrapper>

@@ -9,10 +9,11 @@ import {
   Poppins_700Bold
 } from '@expo-google-fonts/poppins'
 import AppLoading from 'expo-app-loading';
-import { NavigationContainer } from '@react-navigation/native';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'
 import { Routes } from './routes';
+import { AuthProvider } from './hooks/useAuth';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
 
@@ -27,9 +28,13 @@ export default function App() {
   }
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
         <StatusBar style="light" />
+        <AuthProvider>
             <Routes />
+        </AuthProvider>
       </ThemeProvider>
+      </GestureHandlerRootView>
   );
 }
