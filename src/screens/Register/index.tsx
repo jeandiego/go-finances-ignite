@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { transactionKey } from '../../constants/storage';
 import uuid from 'react-native-uuid'
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../hooks/useAuth';
 
 interface IFormData {
   name: string,
@@ -38,6 +39,7 @@ export function Register() {
   const { navigate } = useNavigation();
   const [transactionType, setTransactionType] = useState('')
   const [categoryModalOpen, setCategoryModalOpen] = useState(false)
+  const { user } = useAuth();
   const { control, handleSubmit, formState: { errors }, reset } = useForm({ resolver:  yupResolver(schema) });
 
   function handleTransactionTypeSelect(type: 'positive' | "negative") {
@@ -70,11 +72,12 @@ export function Register() {
     }
 
     try {
-      const transactionData = await AsyncStorage.getItem(transactionKey);
+      const transactionData = await AsyncStorage.getItem(`${transactionKey}${user.id}`);
+
       const currentData = transactionData ? JSON.parse(transactionData) : [];
       const dataFormatted = [newTransaction, ...currentData]
 
-      await AsyncStorage.setItem(transactionKey, JSON.stringify(dataFormatted));
+      await AsyncStorage.setItem(`${transactionKey}${user.id}`, JSON.stringify(dataFormatted));
 
       setTransactionType('');
       setCategory({
@@ -85,7 +88,7 @@ export function Register() {
 
       navigate('Listagem' as never)
     } catch (error) {
-      console.log(error);
+      console.warn(error);
       Alert.alert('Não foi possível salvar a transação')
     }
   }

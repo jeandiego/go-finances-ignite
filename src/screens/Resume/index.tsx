@@ -10,6 +10,7 @@ import HistoryCard from "../../components/HistoryCard";
 import LoadContainer, { Loader } from "../../components/LoadContainer";
 import { TransactionCardProps } from "../../components/TransactionCard";
 import { transactionKey } from "../../constants/storage";
+import { useAuth } from "../../hooks/useAuth";
 import { categories } from "../../utils/categories";
 import { currencyFormat } from "../../utils/currencyUtils";
 import {
@@ -37,6 +38,7 @@ export function Resume(): JSX.Element {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<ICategoryData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useAuth();
   const theme = useTheme();
 
   const handleChangeDate = useCallback((action: "prev" | "next") => {
@@ -49,7 +51,7 @@ export function Resume(): JSX.Element {
 
   const loadData = useCallback(async() => {
     setIsLoading(true);
-    const response = await AsyncStorage.getItem(transactionKey);
+    const response = await AsyncStorage.getItem(`${transactionKey}${user.id}`);
     const transactions = response ? JSON.parse(response) : [];
 
     const expensives = transactions.filter(

@@ -41,13 +41,15 @@ export function Dashboard() {
   const userPhoto = user.photo || `https://ui-avatars.com/api/?name=${user.name}&length=1`
 
   const getLastTransactionDate = useCallback((collection: DataListProps[], type: 'positive' | 'negative') => {
-    const lastTransactionDate = new Date(Math.max.apply(Math, collection
-      .filter((transaction) => transaction.type === type)
+    const collectionFiltered = collection
+    .filter((transaction) => transaction.type === type)
+
+    const lastTransactionDate = new Date(Math.max.apply(Math, collectionFiltered
       .map(_transaction => new Date(Date.parse(_transaction.date)).getTime())));
 
     const day = lastTransactionDate.getDate();
     const month = lastTransactionDate.toLocaleString('pt-BR', { month: 'long'} );
-    if (!day || !month) return '';
+    if (!collectionFiltered.length) return '';
 
     return `${day} de ${month}`;
     },
@@ -56,7 +58,7 @@ export function Dashboard() {
 
 const loadTransactions = async () => {
   setLoading(true);
-  const response = await AsyncStorage.getItem(transactionKey);
+  const response = await AsyncStorage.getItem(`${transactionKey}${user.id}`);
   const transactions = response ? JSON.parse(response) : [];
 
   let entriesTotal = 0;
@@ -81,8 +83,6 @@ const loadTransactions = async () => {
   const lastTransactionEntriesDate = getLastTransactionDate(transactions, 'positive');
   const lastTransactionExpensiveDate = getLastTransactionDate(transactions, 'negative');
   const totalInterval = `01 a ${lastTransactionExpensiveDate}`;
-
-  console.log(typeof lastTransactionEntriesDate.length)
 
   setHighlightValues([
     {

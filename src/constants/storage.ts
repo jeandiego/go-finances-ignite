@@ -1,2 +1,2 @@
-export const transactionKey = '@gofinances:transaction01';
+export const transactionKey = '@gofinances:transactions_user:';
 export const userStorageKey = '@gofinances:user';

@@ -37,7 +37,7 @@ export function SignIn(): JSX.Element {
       setIsLoading(true);
       return await signInWithApple();
     } catch (error) {
-      console.log(error);
+      console.warn(error);
       Alert.alert("Não foi possível conectar a conta Apple.");
       setIsLoading(false);
     }
