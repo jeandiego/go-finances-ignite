@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 import * as Google from 'expo-auth-session';
-import * as AppleAuthentication from 'expo-apple-authentication';
+import * as AppleAuthentication from 'expo-apple-authentication'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userStorageKey } from '../constants/storage';
 
@@ -37,6 +37,9 @@ interface AuthorizationResponse {
   type: string;
 }
 
+const { CLIENT_ID } = process.env;
+const { REDIRECT_URI } = process.env;
+
 const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
@@ -46,8 +49,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function signInWithGoogle() {
     try {
-      const { CLIENT_ID } = process.env;
-      const { REDIRECT_URI } = process.env;
       const RESPONSE_TYPE = 'token';
       const SCOPE = encodeURI('profile email');
 
@@ -70,6 +71,8 @@ function AuthProvider({ children }: AuthProviderProps) {
           name: userLogged.name,
           photo: userLogged.picture,
         });
+
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch (error) {
       throw new Error(error as string);
@@ -84,23 +87,21 @@ function AuthProvider({ children }: AuthProviderProps) {
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
         ],
       });
-      console.log({credential})
 
-      // if (credential) {
-      //   const name = credential.fullName!.givenName!;
-      //   const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
+      if (credential) {
+        const name = credential.fullName!.givenName!;
+        const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
 
-      //   const userLogged = {
-      //     id: String(credential.user),
-      //     email: credential.email!,
-      //     name,
-      //     photo,
-      //   };
+        const userLogged = {
+          id: String(credential.user),
+          email: credential.email!,
+          name,
+          photo,
+        };
+        setUser(userLogged);
 
-      //   setUser(userLogged);
-
-      //   await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
-      // }
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+      }
     } catch (error) {
       throw new Error(error as string);
     }

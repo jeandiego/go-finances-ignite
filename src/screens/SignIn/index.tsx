@@ -17,11 +17,9 @@ import LogoSvg from '../../assets/logo.svg';
 import { useAuth } from "../../hooks/useAuth";
 
 export function SignIn(): JSX.Element {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signInWithApple} = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const theme = useTheme();
-
-  // const { signInWithGoogle, signInWithApple } = useAuth();
 
   async function handleSignInWithGoogle() {
     try {
@@ -37,7 +35,8 @@ export function SignIn(): JSX.Element {
   async function handleSignInWithApple() {
     try {
       setIsLoading(true);
-      // return await signInWithApple();
+      await signInWithApple();
+
     } catch (error) {
       console.log(error);
       Alert.alert("Não foi possível conectar a conta Apple.");
