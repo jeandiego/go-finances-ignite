@@ -12,10 +12,11 @@ import AppLoading from 'expo-app-loading';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'
 import { Routes } from './routes';
-import { AuthProvider } from './hooks/useAuth';
+import { AuthProvider, useAuth } from './hooks/useAuth';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
+  const { userStorageLoading } = useAuth();
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -23,7 +24,9 @@ export default function App() {
     Poppins_700Bold
   });
 
-  if (!fontsLoaded){
+  const startingApp = !fontsLoaded || userStorageLoading;
+
+  if (startingApp){
     return <AppLoading />
   }
 

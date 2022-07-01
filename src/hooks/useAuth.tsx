@@ -45,7 +45,6 @@ const AuthContext = createContext({} as AuthContextData);
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
   const [userStorageLoading, setUserStorageLoading] = useState(true);
-  console.log({user})
 
   async function signInWithGoogle() {
     try {
@@ -103,7 +102,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch (error) {
-      throw new Error(error as string);
+      throw new Error(String(error));
     }
   }
 
@@ -112,18 +111,18 @@ function AuthProvider({ children }: AuthProviderProps) {
     await AsyncStorage.removeItem(userStorageKey);
   }
 
-  useEffect(() => {
-    async function loadUserStorageData() {
-      const userStorage = await AsyncStorage.getItem(userStorageKey);
 
-      if (userStorage) {
-        const userLogged = JSON.parse(userStorage) as User;
-        setUser(userLogged);
-      }
+  async function loadUserStorageData() {
+    const userStorage = await AsyncStorage.getItem(userStorageKey);
 
-      setUserStorageLoading(false);
+    if (userStorage) {
+      const userLogged: User = JSON.parse(userStorage);
+      setUser(userLogged);
     }
+    setUserStorageLoading(false);
+  }
 
+  useEffect(() => {
     loadUserStorageData();
   }, []);
 

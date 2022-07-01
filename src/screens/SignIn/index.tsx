@@ -35,8 +35,7 @@ export function SignIn(): JSX.Element {
   async function handleSignInWithApple() {
     try {
       setIsLoading(true);
-      await signInWithApple();
-
+      return await signInWithApple();
     } catch (error) {
       console.log(error);
       Alert.alert("Não foi possível conectar a conta Apple.");
@@ -63,22 +62,24 @@ export function SignIn(): JSX.Element {
             onPress={handleSignInWithGoogle}
             title="Entrar com Google"
             icon={() => <AntDesign name="google" size={24} color="black" />}
+            enabled={!isLoading}
           />
           {Platform.OS === "ios" && (
             <SignInSocialButton
               onPress={handleSignInWithApple}
               title="Entrar com Apple"
               icon={() => <AntDesign name="apple1" size={24} color="black" />}
+              enabled={!isLoading}
             />
           )}
         </FooterWrapper>
-        {isLoading && (
+        {isLoading ?
           <ActivityIndicator
             color={theme.colors.primary}
             size="large"
             style={{ marginTop: 18 }}
           />
-        )}
+          : null }
       </Footer>
     </Container>
   );
